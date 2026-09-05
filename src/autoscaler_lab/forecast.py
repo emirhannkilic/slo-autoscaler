@@ -23,6 +23,7 @@ class PersistenceForecaster:
 
     def __init__(self, safety_margin: float = 0.20) -> None:
         self.safety_margin = safety_margin
+        self.last_was_fallback = False  # persistence is always its own baseline
 
     def fit(self, history: Sequence[float]) -> None:  # nothing to learn
         pass
@@ -64,6 +65,7 @@ class QuantileForecaster:
         self._fallback = PersistenceForecaster(safety_margin)
         self._median: HistGradientBoostingRegressor | None = None
         self._upper: HistGradientBoostingRegressor | None = None
+        self.last_was_fallback = False  # set on each predict() call
 
     def fit(self, history: Sequence[float]) -> None:
         history = [float(x) for x in history]
@@ -92,13 +94,16 @@ class QuantileForecaster:
             or self._upper is None
             or len(history) < _MAX_LAG
         ):
+            self.last_was_fallback = True
             return self._fallback.predict(history, step)
 
         x = np.asarray([_features(history)])
         point = float(self._median.predict(x)[0])
         upper = float(self._upper.predict(x)[0])
         if not (math.isfinite(point) and math.isfinite(upper)):
+            self.last_was_fallback = True
             return self._fallback.predict(history, step)
+        self.last_was_fallback = False
         return Forecast.make(point, upper)
 
 
@@ -110,6 +115,7 @@ class OracleForecaster:
 
     def __init__(self, workload: Sequence[WorkloadPoint]) -> None:
         self._demand = [p.demand_rps for p in workload]
+        self.last_was_fallback = False  # the oracle never falls back
 
     def fit(self, history: Sequence[float]) -> None:
         pass

@@ -20,6 +20,8 @@ def _clamp(value: int, low: int, high: int) -> int:
 class StaticPolicy:
     """Fixed replica count -- the do-nothing baseline."""
 
+    needs_forecast = False
+
     replicas: int
 
     def decide(self, current: SystemState, forecast: Forecast | None) -> ScalingDecision:
@@ -29,6 +31,8 @@ class StaticPolicy:
 @dataclass(frozen=True)
 class HpaPolicy:
     """Kubernetes-style reactive HPA: scale on observed CPU vs a target."""
+
+    needs_forecast = False
 
     target_cpu: float
     min_replicas: int
@@ -52,6 +56,8 @@ class HpaPolicy:
 @dataclass(frozen=True)
 class PredictivePolicy:
     """Forecast-driven: size for the upper-quantile demand of the next step."""
+
+    needs_forecast = True
 
     capacity_per_replica: float
     target_utilization: float

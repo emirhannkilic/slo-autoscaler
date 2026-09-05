@@ -80,10 +80,12 @@ def summarize(
     latencies = [s.p95_latency_ms for s in states]
     violations = sum(1 for lat in latencies if lat > slo_ms)
 
+    # forecast_rps at step t predicts demand at step t+1, so align with the
+    # *following* state's demand, not the current one.
     errors = [
-        abs(s.forecast_rps - s.demand_rps)
-        for s in states
-        if s.forecast_rps is not None
+        abs(current.forecast_rps - following.demand_rps)
+        for current, following in zip(states, states[1:])
+        if current.forecast_rps is not None
     ]
     forecast_mae = sum(errors) / len(errors) if errors else None
 

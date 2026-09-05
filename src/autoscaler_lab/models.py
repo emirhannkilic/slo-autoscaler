@@ -23,6 +23,7 @@ class SystemState:
     forecast_rps: float | None
     forecast_upper_rps: float | None
     fallback_used: bool
+    decision_replicas: int = 0  # replicas requested for the next step (actuation delay)
 
 
 @dataclass(frozen=True)
