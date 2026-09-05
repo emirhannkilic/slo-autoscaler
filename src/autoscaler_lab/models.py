@@ -29,12 +29,26 @@ class SystemState:
 class Forecast:
     """A demand forecast for the next step: median point and upper quantile.
 
-    Invariant ``upper >= point >= 0`` is enforced by the forecasters (Task 4),
-    not here, so this stays a plain value record.
+    Enforces ``upper >= point >= 0``. Use ``Forecast.make`` to build one from
+    two possibly-crossed quantile estimates.
     """
 
     point: float
     upper: float
+
+    def __post_init__(self) -> None:
+        if self.point < 0 or self.upper < self.point:
+            raise ValueError(
+                f"invalid forecast: need upper >= point >= 0, got "
+                f"point={self.point}, upper={self.upper}"
+            )
+
+    @classmethod
+    def make(cls, point: float, upper: float) -> "Forecast":
+        """Clamp point to >= 0 and lift a crossed upper back above point."""
+        point = max(0.0, float(point))
+        upper = max(point, float(upper))
+        return cls(point=point, upper=upper)
 
 
 @dataclass(frozen=True)
