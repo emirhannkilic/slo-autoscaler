@@ -1,0 +1,14 @@
+{
+  "scenarios": ["steady", "spike", "ramp", "regime_shift"],
+  "policies": ["static", "hpa", "predictive", "oracle"],
+  "seeds": [42, 43, 44, 45, 46],
+  "steps": 120,
+  "initial_replicas": 1,
+  "min_replicas": 1,
+  "max_replicas": 6,
+  "static_replicas": 3,
+  "target_cpu": 60,
+  "slo_ms": 200,
+  "capacity_rps_per_replica": 25,
+  "refit_every": 12
+}
