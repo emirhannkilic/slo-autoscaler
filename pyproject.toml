@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "autoscaler-lab"
+version = "0.1.0"
+description = "SLO-aware predictive autoscaler lab: compare static, HPA, predictive, and oracle scaling by SLO violations and resource cost."
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "numpy",
+    "scikit-learn",
+    "matplotlib",
+]
+
+[project.optional-dependencies]
+service = [
+    "fastapi",
+    "uvicorn",
+]
+dev = [
+    "pytest",
+    "httpx",
+    "locust",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/autoscaler_lab"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
