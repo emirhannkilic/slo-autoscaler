@@ -23,3 +23,21 @@ class SystemState:
     forecast_rps: float | None
     forecast_upper_rps: float | None
     fallback_used: bool
+
+
+@dataclass(frozen=True)
+class Forecast:
+    """A demand forecast for the next step: median point and upper quantile.
+
+    Invariant ``upper >= point >= 0`` is enforced by the forecasters (Task 4),
+    not here, so this stays a plain value record.
+    """
+
+    point: float
+    upper: float
+
+
+@dataclass(frozen=True)
+class ScalingDecision:
+    replicas: int
+    reason: str
