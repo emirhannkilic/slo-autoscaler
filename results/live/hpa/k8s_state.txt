@@ -1,0 +1,64 @@
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS    IMAGES                      SELECTOR
+deployment.apps/load-target   6/6     6            6           24m   load-target   autoscaler-load-target:ci   app=load-target
+
+NAME                               READY   STATUS    RESTARTS   AGE   IP            NODE                           NOMINATED NODE   READINESS GATES
+pod/load-target-6bdc87689b-4hmxs   1/1     Running   0          23m   10.244.0.9    autoscaler-lab-control-plane   <none>           <none>
+pod/load-target-6bdc87689b-95k9w   1/1     Running   0          23m   10.244.0.8    autoscaler-lab-control-plane   <none>           <none>
+pod/load-target-6bdc87689b-fngbv   1/1     Running   0          23m   10.244.0.12   autoscaler-lab-control-plane   <none>           <none>
+pod/load-target-6bdc87689b-fpz75   1/1     Running   0          23m   10.244.0.10   autoscaler-lab-control-plane   <none>           <none>
+pod/load-target-6bdc87689b-tfwvw   1/1     Running   0          23m   10.244.0.11   autoscaler-lab-control-plane   <none>           <none>
+pod/load-target-6bdc87689b-tr288   1/1     Running   0          24m   10.244.0.7    autoscaler-lab-control-plane   <none>           <none>
+
+NAME                                              REFERENCE                TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/load-target   Deployment/load-target   cpu: 455%/60%   1         6         6          24m
+=== events ===
+LAST SEEN   TYPE      REASON                         OBJECT                                MESSAGE
+25m         Normal    Starting                       node/autoscaler-lab-control-plane     
+25m         Normal    Starting                       node/autoscaler-lab-control-plane     Starting kubelet.
+25m         Normal    NodeAllocatableEnforced        node/autoscaler-lab-control-plane     Updated Node Allocatable limit across pods
+25m         Normal    NodeHasSufficientMemory        node/autoscaler-lab-control-plane     Node autoscaler-lab-control-plane status is now: NodeHasSufficientMemory
+25m         Normal    NodeHasNoDiskPressure          node/autoscaler-lab-control-plane     Node autoscaler-lab-control-plane status is now: NodeHasNoDiskPressure
+25m         Normal    NodeHasSufficientPID           node/autoscaler-lab-control-plane     Node autoscaler-lab-control-plane status is now: NodeHasSufficientPID
+25m         Normal    RegisteredNode                 node/autoscaler-lab-control-plane     Node autoscaler-lab-control-plane event: Registered Node autoscaler-lab-control-plane in Controller
+25m         Normal    NodeReady                      node/autoscaler-lab-control-plane     Node autoscaler-lab-control-plane status is now: NodeReady
+24m         Warning   FailedGetResourceMetric        horizontalpodautoscaler/load-target   failed to get cpu utilization: unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server is currently unable to handle the request (get pods.metrics.k8s.io)
+24m         Normal    SuccessfulCreate               replicaset/load-target-6bdc87689b     Created pod: load-target-6bdc87689b-tr288
+24m         Normal    Scheduled                      pod/load-target-6bdc87689b-tr288      Successfully assigned default/load-target-6bdc87689b-tr288 to autoscaler-lab-control-plane
+24m         Warning   FailedComputeMetricsReplicas   horizontalpodautoscaler/load-target   invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric value: failed to get cpu utilization: unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server is currently unable to handle the request (get pods.metrics.k8s.io)
+24m         Normal    ScalingReplicaSet              deployment/load-target                Scaled up replica set load-target-6bdc87689b from 0 to 1
+24m         Normal    Started                        pod/load-target-6bdc87689b-tr288      Container started
+24m         Normal    Created                        pod/load-target-6bdc87689b-tr288      Container created
+24m         Normal    Pulled                         pod/load-target-6bdc87689b-tr288      Container image "autoscaler-load-target:ci" already present on machine and can be accessed by the pod
+23m         Warning   FailedGetResourceMetric        horizontalpodautoscaler/load-target   failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned from resource metrics API
+23m         Warning   FailedComputeMetricsReplicas   horizontalpodautoscaler/load-target   invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric value: failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned from resource metrics API
+23m         Warning   FailedComputeMetricsReplicas   horizontalpodautoscaler/load-target   invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric value: failed to get cpu utilization: did not receive metrics for targeted pods (pods might be unready)
+23m         Warning   FailedGetResourceMetric        horizontalpodautoscaler/load-target   failed to get cpu utilization: did not receive metrics for targeted pods (pods might be unready)
+23m         Normal    Scheduled                      pod/load-target-6bdc87689b-95k9w      Successfully assigned default/load-target-6bdc87689b-95k9w to autoscaler-lab-control-plane
+23m         Normal    Scheduled                      pod/load-target-6bdc87689b-fpz75      Successfully assigned default/load-target-6bdc87689b-fpz75 to autoscaler-lab-control-plane
+23m         Normal    Scheduled                      pod/load-target-6bdc87689b-4hmxs      Successfully assigned default/load-target-6bdc87689b-4hmxs to autoscaler-lab-control-plane
+23m         Normal    SuccessfulCreate               replicaset/load-target-6bdc87689b     Created pod: load-target-6bdc87689b-fpz75
+23m         Normal    SuccessfulCreate               replicaset/load-target-6bdc87689b     Created pod: load-target-6bdc87689b-4hmxs
+23m         Normal    SuccessfulRescale              horizontalpodautoscaler/load-target   New size: 4; reason: cpu resource utilization (percentage of request) above target
+23m         Normal    ScalingReplicaSet              deployment/load-target                Scaled up replica set load-target-6bdc87689b from 1 to 4
+23m         Normal    SuccessfulCreate               replicaset/load-target-6bdc87689b     Created pod: load-target-6bdc87689b-95k9w
+23m         Normal    Created                        pod/load-target-6bdc87689b-95k9w      Container created
+23m         Normal    Pulled                         pod/load-target-6bdc87689b-95k9w      Container image "autoscaler-load-target:ci" already present on machine and can be accessed by the pod
+23m         Normal    Started                        pod/load-target-6bdc87689b-4hmxs      Container started
+23m         Normal    Created                        pod/load-target-6bdc87689b-4hmxs      Container created
+23m         Normal    Pulled                         pod/load-target-6bdc87689b-4hmxs      Container image "autoscaler-load-target:ci" already present on machine and can be accessed by the pod
+23m         Normal    Started                        pod/load-target-6bdc87689b-95k9w      Container started
+23m         Normal    Started                        pod/load-target-6bdc87689b-fpz75      Container started
+23m         Normal    Created                        pod/load-target-6bdc87689b-fpz75      Container created
+23m         Normal    Pulled                         pod/load-target-6bdc87689b-fpz75      Container image "autoscaler-load-target:ci" already present on machine and can be accessed by the pod
+23m         Normal    Scheduled                      pod/load-target-6bdc87689b-tfwvw      Successfully assigned default/load-target-6bdc87689b-tfwvw to autoscaler-lab-control-plane
+23m         Normal    SuccessfulCreate               replicaset/load-target-6bdc87689b     Created pod: load-target-6bdc87689b-fngbv
+23m         Normal    SuccessfulCreate               replicaset/load-target-6bdc87689b     Created pod: load-target-6bdc87689b-tfwvw
+23m         Normal    Scheduled                      pod/load-target-6bdc87689b-fngbv      Successfully assigned default/load-target-6bdc87689b-fngbv to autoscaler-lab-control-plane
+23m         Normal    SuccessfulRescale              horizontalpodautoscaler/load-target   New size: 6; reason: cpu resource utilization (percentage of request) above target
+23m         Normal    ScalingReplicaSet              deployment/load-target                Scaled up replica set load-target-6bdc87689b from 4 to 6
+23m         Normal    Started                        pod/load-target-6bdc87689b-tfwvw      Container started
+23m         Normal    Created                        pod/load-target-6bdc87689b-tfwvw      Container created
+23m         Normal    Pulled                         pod/load-target-6bdc87689b-tfwvw      Container image "autoscaler-load-target:ci" already present on machine and can be accessed by the pod
+23m         Normal    Started                        pod/load-target-6bdc87689b-fngbv      Container started
+23m         Normal    Created                        pod/load-target-6bdc87689b-fngbv      Container created
+23m         Normal    Pulled                         pod/load-target-6bdc87689b-fngbv      Container image "autoscaler-load-target:ci" already present on machine and can be accessed by the pod

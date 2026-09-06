@@ -89,11 +89,11 @@ fi
 echo "--- polling replicas every ${POLL_SECONDS}s ---"
 echo "timestamp,replicas,cpu_millicores_total" > "$OUTPUT_DIR/replicas.csv"
 poll_replicas() {
+  set +e  # a failed kubectl call must not kill this background loop
   while true; do
-    local ts replicas cpu
     ts="$(date -u +%FT%TZ)"
     replicas="$(kubectl get deployment load-target -n "$NAMESPACE" \
-      -o jsonpath='{.status.replicas}' 2>/dev/null || echo 0)"
+      -o jsonpath='{.status.replicas}' 2>/dev/null)"
     cpu="$(kubectl top pods -l app=load-target -n "$NAMESPACE" --no-headers 2>/dev/null \
       | awk '{gsub(/m/,"",$2); s+=$2} END {print s+0}')"
     echo "${ts},${replicas:-0},${cpu:-0}" >> "$OUTPUT_DIR/replicas.csv"
@@ -115,12 +115,16 @@ CONTROLLER_PID=""
 
 echo "--- acceptance checks ---"
 test -s "$OUTPUT_DIR/locust_stats.csv"
-test -s "$OUTPUT_DIR/replicas.csv"
-awk -F, 'NR > 1 && $2 > 1 {found=1} END {exit !found}' "$OUTPUT_DIR/replicas.csv" \
-  || { echo "replicas never exceeded 1 -- scaling did not happen" >&2; exit 4; }
 
-if [[ "$POLICY" == "predictive" ]]; then
+if [[ "$POLICY" == "hpa" ]]; then
+  test -s "$OUTPUT_DIR/replicas.csv"
+  awk -F, 'NR > 1 && $2 > 1 {found=1} END {exit !found}' "$OUTPUT_DIR/replicas.csv" \
+    || { echo "HPA never scaled above one replica" >&2; exit 4; }
+else
+  # the predictive controller records active_replicas itself
   test -s "$OUTPUT_DIR/controller.jsonl"
+  grep -q '"active_replicas": [2-9]' "$OUTPUT_DIR/controller.jsonl" \
+    || { echo "predictive controller never scaled above one replica" >&2; exit 4; }
   non_fallback="$(grep -c '"fallback_used": false' "$OUTPUT_DIR/controller.jsonl" || true)"
   echo "controller ticks with a trained model: ${non_fallback}"
   [[ "${non_fallback:-0}" -ge 20 ]] \

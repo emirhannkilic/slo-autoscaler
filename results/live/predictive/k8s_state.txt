@@ -1,0 +1,56 @@
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS    IMAGES                      SELECTOR
+deployment.apps/load-target   6/6     6            6           24m   load-target   autoscaler-load-target:ci   app=load-target
+
+NAME                               READY   STATUS    RESTARTS   AGE   IP            NODE                           NOMINATED NODE   READINESS GATES
+pod/load-target-6bdc87689b-5qxgq   1/1     Running   0          23m   10.244.0.10   autoscaler-lab-control-plane   <none>           <none>
+pod/load-target-6bdc87689b-lfblv   1/1     Running   0          24m   10.244.0.7    autoscaler-lab-control-plane   <none>           <none>
+pod/load-target-6bdc87689b-n59vd   1/1     Running   0          23m   10.244.0.11   autoscaler-lab-control-plane   <none>           <none>
+pod/load-target-6bdc87689b-slnk9   1/1     Running   0          23m   10.244.0.9    autoscaler-lab-control-plane   <none>           <none>
+pod/load-target-6bdc87689b-sngzm   1/1     Running   0          23m   10.244.0.12   autoscaler-lab-control-plane   <none>           <none>
+pod/load-target-6bdc87689b-zf5s7   1/1     Running   0          23m   10.244.0.8    autoscaler-lab-control-plane   <none>           <none>
+=== events ===
+LAST SEEN   TYPE     REASON                    OBJECT                              MESSAGE
+25m         Normal   Starting                  node/autoscaler-lab-control-plane   
+25m         Normal   NodeHasSufficientMemory   node/autoscaler-lab-control-plane   Node autoscaler-lab-control-plane status is now: NodeHasSufficientMemory
+25m         Normal   NodeHasNoDiskPressure     node/autoscaler-lab-control-plane   Node autoscaler-lab-control-plane status is now: NodeHasNoDiskPressure
+25m         Normal   NodeHasSufficientPID      node/autoscaler-lab-control-plane   Node autoscaler-lab-control-plane status is now: NodeHasSufficientPID
+25m         Normal   NodeAllocatableEnforced   node/autoscaler-lab-control-plane   Updated Node Allocatable limit across pods
+25m         Normal   Starting                  node/autoscaler-lab-control-plane   Starting kubelet.
+25m         Normal   NodeAllocatableEnforced   node/autoscaler-lab-control-plane   Updated Node Allocatable limit across pods
+25m         Normal   NodeHasSufficientMemory   node/autoscaler-lab-control-plane   Node autoscaler-lab-control-plane status is now: NodeHasSufficientMemory
+25m         Normal   NodeHasNoDiskPressure     node/autoscaler-lab-control-plane   Node autoscaler-lab-control-plane status is now: NodeHasNoDiskPressure
+25m         Normal   NodeHasSufficientPID      node/autoscaler-lab-control-plane   Node autoscaler-lab-control-plane status is now: NodeHasSufficientPID
+25m         Normal   RegisteredNode            node/autoscaler-lab-control-plane   Node autoscaler-lab-control-plane event: Registered Node autoscaler-lab-control-plane in Controller
+25m         Normal   NodeReady                 node/autoscaler-lab-control-plane   Node autoscaler-lab-control-plane status is now: NodeReady
+24m         Normal   ScalingReplicaSet         deployment/load-target              Scaled up replica set load-target-6bdc87689b from 0 to 1
+24m         Normal   SuccessfulCreate          replicaset/load-target-6bdc87689b   Created pod: load-target-6bdc87689b-lfblv
+24m         Normal   Scheduled                 pod/load-target-6bdc87689b-lfblv    Successfully assigned default/load-target-6bdc87689b-lfblv to autoscaler-lab-control-plane
+24m         Normal   Created                   pod/load-target-6bdc87689b-lfblv    Container created
+24m         Normal   Started                   pod/load-target-6bdc87689b-lfblv    Container started
+24m         Normal   Pulled                    pod/load-target-6bdc87689b-lfblv    Container image "autoscaler-load-target:ci" already present on machine and can be accessed by the pod
+23m         Normal   SuccessfulCreate          replicaset/load-target-6bdc87689b   Created pod: load-target-6bdc87689b-sngzm
+23m         Normal   SuccessfulCreate          replicaset/load-target-6bdc87689b   Created pod: load-target-6bdc87689b-n59vd
+23m         Normal   Scheduled                 pod/load-target-6bdc87689b-n59vd    Successfully assigned default/load-target-6bdc87689b-n59vd to autoscaler-lab-control-plane
+23m         Normal   ScalingReplicaSet         deployment/load-target              Scaled up replica set load-target-6bdc87689b from 1 to 6
+23m         Normal   Scheduled                 pod/load-target-6bdc87689b-5qxgq    Successfully assigned default/load-target-6bdc87689b-5qxgq to autoscaler-lab-control-plane
+23m         Normal   SuccessfulCreate          replicaset/load-target-6bdc87689b   Created pod: load-target-6bdc87689b-5qxgq
+23m         Normal   Scheduled                 pod/load-target-6bdc87689b-slnk9    Successfully assigned default/load-target-6bdc87689b-slnk9 to autoscaler-lab-control-plane
+23m         Normal   SuccessfulCreate          replicaset/load-target-6bdc87689b   Created pod: load-target-6bdc87689b-slnk9
+23m         Normal   SuccessfulCreate          replicaset/load-target-6bdc87689b   Created pod: load-target-6bdc87689b-zf5s7
+23m         Normal   Scheduled                 pod/load-target-6bdc87689b-zf5s7    Successfully assigned default/load-target-6bdc87689b-zf5s7 to autoscaler-lab-control-plane
+23m         Normal   Scheduled                 pod/load-target-6bdc87689b-sngzm    Successfully assigned default/load-target-6bdc87689b-sngzm to autoscaler-lab-control-plane
+23m         Normal   Created                   pod/load-target-6bdc87689b-n59vd    Container created
+23m         Normal   Created                   pod/load-target-6bdc87689b-sngzm    Container created
+23m         Normal   Started                   pod/load-target-6bdc87689b-sngzm    Container started
+23m         Normal   Pulled                    pod/load-target-6bdc87689b-sngzm    Container image "autoscaler-load-target:ci" already present on machine and can be accessed by the pod
+23m         Normal   Pulled                    pod/load-target-6bdc87689b-zf5s7    Container image "autoscaler-load-target:ci" already present on machine and can be accessed by the pod
+23m         Normal   Created                   pod/load-target-6bdc87689b-zf5s7    Container created
+23m         Normal   Started                   pod/load-target-6bdc87689b-zf5s7    Container started
+23m         Normal   Started                   pod/load-target-6bdc87689b-slnk9    Container started
+23m         Normal   Created                   pod/load-target-6bdc87689b-slnk9    Container created
+23m         Normal   Pulled                    pod/load-target-6bdc87689b-slnk9    Container image "autoscaler-load-target:ci" already present on machine and can be accessed by the pod
+23m         Normal   Started                   pod/load-target-6bdc87689b-n59vd    Container started
+23m         Normal   Pulled                    pod/load-target-6bdc87689b-n59vd    Container image "autoscaler-load-target:ci" already present on machine and can be accessed by the pod
+23m         Normal   Started                   pod/load-target-6bdc87689b-5qxgq    Container started
+23m         Normal   Created                   pod/load-target-6bdc87689b-5qxgq    Container created
+23m         Normal   Pulled                    pod/load-target-6bdc87689b-5qxgq    Container image "autoscaler-load-target:ci" already present on machine and can be accessed by the pod

@@ -89,5 +89,13 @@ def test_predictive_branch_starts_controller_and_checks_warmup():
     # predictive runs must prove the quantile model warmed up
     assert '"fallback_used": false' in text
     assert "-ge 20" in text
+    # and that it actually scaled, read from the controller's own log
+    assert '"active_replicas": [2-9]' in text
     # hpa.yaml must NOT be applied in the predictive branch
     assert 'if [[ "$POLICY" == "hpa" ]]; then\n  kubectl apply -f "${KIND_DIR}/hpa.yaml"' in text
+
+
+def test_poll_loop_survives_transient_kubectl_failures():
+    text = (KIND_DIR / "run_live_experiment.sh").read_text()
+    # the background poller must not die on an early failed kubectl call
+    assert "set +e  # a failed kubectl call must not kill" in text

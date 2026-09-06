@@ -208,19 +208,35 @@ def _offline_table(runs) -> str:
 
 
 def _live_section(summary_path: Path) -> str:
-    live_dir = summary_path.parent.parent / "live"
-    found = []
-    for policy in ("hpa", "predictive"):
-        replicas = live_dir / policy / "replicas.csv"
-        if replicas.is_file():
-            found.append(f"- {policy}: `{replicas}` present")
-    if not found:
+    live_summary = summary_path.parent.parent / "live" / "summary.json"
+    if not live_summary.is_file():
         return (
             "The live kind experiment has not been run yet, or its artifacts are "
             "not checked out here. Trigger the `kind-experiment` workflow "
             "(`policy=both`) and add the run URL to `docs/methodology.md`."
         )
-    return "\n".join(found)
+
+    live = json.loads(live_summary.read_text())
+    h = live["hpa"]["locust"]
+    p = live["predictive"]["locust"]
+    ctrl = live["predictive"]["controller"]
+    lines = [
+        "Both policies ran the identical 24-minute Locust shape on a one-node "
+        "kind cluster inside GitHub Actions.",
+        "",
+        "| Policy | Requests | RPS | Median (ms) | p95 (ms) | p99 (ms) | Max replicas |",
+        "|---|---|---|---|---|---|---|",
+        f"| hpa | {h['requests']:,} | {h['rps']} | {h['median_ms']:.0f} | "
+        f"{h['p95_ms']:.0f} | {h['p99_ms']:.0f} | 6 |",
+        f"| predictive | {p['requests']:,} | {p['rps']} | {p['median_ms']:.0f} | "
+        f"{p['p95_ms']:.0f} | {p['p99_ms']:.0f} | {ctrl['max_active_replicas']} |",
+        "",
+        f"The predictive controller ran {ctrl['ticks']} ticks, "
+        f"{ctrl['non_fallback_ticks']} of them with a trained quantile model.",
+        "",
+        f"_{live['notes']}_",
+    ]
+    return "\n".join(lines)
 
 
 def render_report(summary_path: Path, output_path: Path) -> None:
@@ -262,6 +278,25 @@ def render_report(summary_path: Path, output_path: Path) -> None:
         parts.append(
             f"**{key} ({d['decision']}).** {_H_TEXT[key]}\n\n> {d['detail']}\n"
         )
+
+    live_summary = Path(summary_path).parent.parent / "live" / "summary.json"
+    if live_summary.is_file():
+        parts += [
+            "## Live vs offline consistency (RQ5)\n",
+            "The offline simulator gives every policy a perfect, instant CPU "
+            "signal. On the live cluster HPA depended on Metrics Server, which "
+            "was not ready for the first ~2 minutes, so HPA scaled late and its "
+            "p95 latency sat at or above the 200 ms SLO. The predictive "
+            "controller scaled to maximum on its first tick through the "
+            "persistence fallback and then ran a trained model, so it had full "
+            "capacity from the start and kept p95 well under the SLO at higher "
+            "throughput.\n\n"
+            "So the live result is directionally *opposite* to the offline one: "
+            "offline, predictive lost to HPA; live, predictive's early "
+            "over-provisioning beat HPA's metric-startup lag. The controlled "
+            "offline conclusions do not transfer directly, because the offline "
+            "model omits metric-pipeline delay.\n",
+        ]
 
     parts += [
         "## Threats to validity\n",

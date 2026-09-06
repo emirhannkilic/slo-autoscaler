@@ -44,7 +44,16 @@
 
 ## Live results
 
-The live kind experiment has not been run yet, or its artifacts are not checked out here. Trigger the `kind-experiment` workflow (`policy=both`) and add the run URL to `docs/methodology.md`.
+Both policies ran the identical 24-minute Locust shape on a one-node kind cluster inside GitHub Actions.
+
+| Policy | Requests | RPS | Median (ms) | p95 (ms) | p99 (ms) | Max replicas |
+|---|---|---|---|---|---|---|
+| hpa | 868,875 | 603.2 | 62 | 230 | 310 | 6 |
+| predictive | 1,313,121 | 911.6 | 42 | 160 | 220 | 6 |
+
+The predictive controller ran 92 ticks, 63 of them with a trained quantile model.
+
+_kind on a GitHub-hosted VM, 1 node. Same 24-minute Locust shape for both. HPA saw FailedGetResourceMetric errors for the first ~2 minutes while Metrics Server warmed up, so it scaled late. The predictive controller scaled to max on its first tick via persistence fallback, then ran a trained quantile model for 63 of 92 ticks._
 
 ## Hypothesis decisions
 
@@ -63,6 +72,12 @@ The live kind experiment has not been run yet, or its artifacts are not checked 
 **H4 (inconclusive).** Periodic expanding-window retraining helps after drift but does not dominate reactive HPA in every scenario.
 
 > retrained and frozen predictive tie on every seed after drift (no violations either way), so retraining's effect cannot be measured here
+
+## Live vs offline consistency (RQ5)
+
+The offline simulator gives every policy a perfect, instant CPU signal. On the live cluster HPA depended on Metrics Server, which was not ready for the first ~2 minutes, so HPA scaled late and its p95 latency sat at or above the 200 ms SLO. The predictive controller scaled to maximum on its first tick through the persistence fallback and then ran a trained model, so it had full capacity from the start and kept p95 well under the SLO at higher throughput.
+
+So the live result is directionally *opposite* to the offline one: offline, predictive lost to HPA; live, predictive's early over-provisioning beat HPA's metric-startup lag. The controlled offline conclusions do not transfer directly, because the offline model omits metric-pipeline delay.
 
 ## Threats to validity
 

@@ -1,0 +1,38 @@
+{
+  "hpa": {
+    "locust": {
+      "requests": 868875,
+      "failures": 0,
+      "rps": 603.2,
+      "median_ms": 62.0,
+      "p95_ms": 230.0,
+      "p99_ms": 310.0,
+      "max_ms": 645.8
+    },
+    "scaling": {
+      "scale_events": [
+        "4",
+        "6"
+      ],
+      "final_line": "horizontalpodautoscaler.autoscaling/load-target   Deployment/load-target   cpu: 455%/60%   1         6         6          24m"
+    }
+  },
+  "predictive": {
+    "locust": {
+      "requests": 1313121,
+      "failures": 0,
+      "rps": 911.6,
+      "median_ms": 42.0,
+      "p95_ms": 160.0,
+      "p99_ms": 220.0,
+      "max_ms": 440.7
+    },
+    "controller": {
+      "ticks": 92,
+      "non_fallback_ticks": 63,
+      "max_active_replicas": 6,
+      "final_history_size": 92
+    }
+  },
+  "notes": "kind on a GitHub-hosted VM, 1 node. Same 24-minute Locust shape for both. HPA saw FailedGetResourceMetric errors for the first ~2 minutes while Metrics Server warmed up, so it scaled late. The predictive controller scaled to max on its first tick via persistence fallback, then ran a trained quantile model for 63 of 92 ticks."
+}

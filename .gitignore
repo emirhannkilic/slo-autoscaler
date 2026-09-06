@@ -7,8 +7,12 @@ build/
 dist/
 .DS_Store
 results/**/*.jsonl
-results/live/
 results/offline/timeseries/
+
+# keep only the small summary CSVs from live runs, not the large logs
+results/live/**/pod_logs.txt
+results/live/**/locust_stats_history.csv
+results/live/**/*.jsonl
 
 # Local session state, not part of the project
 CLAUDE.md
