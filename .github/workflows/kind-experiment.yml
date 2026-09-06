@@ -1,0 +1,56 @@
+name: kind-experiment
+
+on:
+  workflow_dispatch:
+    inputs:
+      policy:
+        description: which policy to run live
+        required: true
+        default: both
+        type: choice
+        options: [hpa, predictive, both]
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        policy: [hpa, predictive]
+    if: >
+      github.event.inputs.policy == 'both'
+      || github.event.inputs.policy == matrix.policy
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: pip install -e '.[dev,service]'
+
+      - name: Install pinned kind
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.33.0/kind-linux-amd64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+          kind version
+
+      - name: Run live experiment (${{ matrix.policy }})
+        run: >
+          bash infra/kind/run_live_experiment.sh
+          ${{ matrix.policy }} results/live/${{ matrix.policy }}
+
+      - name: Upload live results and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kind-experiment-${{ matrix.policy }}-${{ github.run_id }}
+          path: results/live/**
+          if-no-files-found: error

@@ -1,0 +1,42 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: pip install -e '.[dev,service]'
+
+      - name: Unit tests
+        run: python -m pytest -q
+
+      - name: Offline experiment matrix
+        run: >
+          python -m autoscaler_lab.cli run-offline
+          --config configs/experiment.json --output results/offline
+
+      - name: Upload offline results
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: offline-results-${{ github.run_id }}
+          path: |
+            results/offline/summary.json
+            results/offline/pareto.png
+            results/offline/forecast_vs_slo.png
+          if-no-files-found: error
