@@ -79,7 +79,7 @@ kubectl rollout status deployment/load-target -n "$NAMESPACE" --timeout=120s
 
 if [[ "$POLICY" == "predictive" ]]; then
   echo "--- starting predictive controller ---"
-  python -m autoscaler_lab.controller \
+  python3 -m autoscaler_lab.controller \
     --namespace "$NAMESPACE" --deployment load-target --selector app=load-target \
     --interval "$POLL_SECONDS" \
     --output "$OUTPUT_DIR/controller.jsonl" &
@@ -103,18 +103,28 @@ poll_replicas() {
 poll_replicas &
 POLL_PID=$!
 
-echo "--- running locust (4 x 90s stages) ---"
+echo "--- running locust (4 cycles x 4 x 90s stages = 24m) ---"
 locust -f "${REPO_ROOT}/experiments/locustfile.py" --headless \
   --host http://localhost:18080 \
   --csv "$OUTPUT_DIR/locust" \
-  --run-time 6m --stop-timeout 10 || true
+  --run-time 25m --stop-timeout 10 || true
 
 kill "$POLL_PID" 2>/dev/null || true
+[[ -n "$CONTROLLER_PID" ]] && kill "$CONTROLLER_PID" 2>/dev/null || true
+CONTROLLER_PID=""
 
 echo "--- acceptance checks ---"
 test -s "$OUTPUT_DIR/locust_stats.csv"
 test -s "$OUTPUT_DIR/replicas.csv"
 awk -F, 'NR > 1 && $2 > 1 {found=1} END {exit !found}' "$OUTPUT_DIR/replicas.csv" \
   || { echo "replicas never exceeded 1 -- scaling did not happen" >&2; exit 4; }
+
+if [[ "$POLICY" == "predictive" ]]; then
+  test -s "$OUTPUT_DIR/controller.jsonl"
+  non_fallback="$(grep -c '"fallback_used": false' "$OUTPUT_DIR/controller.jsonl" || true)"
+  echo "controller ticks with a trained model: ${non_fallback}"
+  [[ "${non_fallback:-0}" -ge 20 ]] \
+    || { echo "predictive run had <20 non-fallback decisions -- model never warmed up" >&2; exit 5; }
+fi
 
 echo "--- experiment ok ---"

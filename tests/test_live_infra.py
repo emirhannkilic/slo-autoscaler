@@ -53,8 +53,9 @@ def test_locustfile_defines_four_stage_shape():
         [
             sys.executable,
             "-c",
-            "from experiments.locustfile import FourStageShape, WorkUser, _STAGES; "
+            "from experiments.locustfile import FourStageShape, WorkUser, _STAGES, _CYCLES; "
             "assert _STAGES == [15, 60, 120, 20]; "
+            "assert _CYCLES == 4; "
             "s = FourStageShape(); "
             "assert s.tick() == (15, 15); "
             "assert WorkUser.wait_time is not None; "
@@ -80,3 +81,13 @@ def test_experiment_script_cleans_up_on_every_exit():
     text = (KIND_DIR / "run_live_experiment.sh").read_text()
     assert "trap collect_and_cleanup EXIT" in text
     assert "kind delete cluster" in text
+
+
+def test_predictive_branch_starts_controller_and_checks_warmup():
+    text = (KIND_DIR / "run_live_experiment.sh").read_text()
+    assert "autoscaler_lab.controller" in text
+    # predictive runs must prove the quantile model warmed up
+    assert '"fallback_used": false' in text
+    assert "-ge 20" in text
+    # hpa.yaml must NOT be applied in the predictive branch
+    assert 'if [[ "$POLICY" == "hpa" ]]; then\n  kubectl apply -f "${KIND_DIR}/hpa.yaml"' in text
