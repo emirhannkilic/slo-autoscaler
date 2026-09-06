@@ -14,16 +14,26 @@ permissions:
   contents: read
 
 jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      policies: ${{ steps.pick.outputs.policies }}
+    steps:
+      - id: pick
+        run: |
+          case "${{ github.event.inputs.policy }}" in
+            both) echo 'policies=["hpa","predictive"]' >> "$GITHUB_OUTPUT" ;;
+            *)    echo 'policies=["${{ github.event.inputs.policy }}"]' >> "$GITHUB_OUTPUT" ;;
+          esac
+
   live:
+    needs: plan
     runs-on: ubuntu-latest
     timeout-minutes: 40
     strategy:
       fail-fast: false
       matrix:
-        policy: [hpa, predictive]
-    if: >
-      github.event.inputs.policy == 'both'
-      || github.event.inputs.policy == matrix.policy
+        policy: ${{ fromJSON(needs.plan.outputs.policies) }}
     steps:
       - uses: actions/checkout@v4
 

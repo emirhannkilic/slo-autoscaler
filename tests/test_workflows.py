@@ -42,7 +42,11 @@ def test_kind_workflow_pins_kind_version_and_bounds_runtime():
     wf = _load("kind-experiment.yml")
     job = wf["jobs"]["live"]
     assert job["timeout-minutes"] == 40
-    assert job["strategy"]["matrix"]["policy"] == ["hpa", "predictive"]
+    # matrix is built dynamically from the dispatch input by the `plan` job
+    assert job["needs"] == "plan"
+    assert "fromJSON(needs.plan.outputs.policies)" in job["strategy"]["matrix"]["policy"]
+    plan_run = wf["jobs"]["plan"]["steps"][0]["run"]
+    assert '["hpa","predictive"]' in plan_run
     run_cmds = " ".join(s.get("run", "") for s in job["steps"])
     assert "v0.33.0" in run_cmds
     assert "run_live_experiment.sh" in run_cmds
