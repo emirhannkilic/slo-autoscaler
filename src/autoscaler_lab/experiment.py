@@ -26,6 +26,9 @@ from autoscaler_lab.simulator import run_simulation  # noqa: E402
 from autoscaler_lab.workload import generate_workload  # noqa: E402
 
 
+_FORECAST_POLICIES = ("predictive", "predictive_frozen", "oracle")
+
+
 def _build_policy(name: str, cfg: dict):
     if name == "static":
         return StaticPolicy(replicas=cfg["static_replicas"])
@@ -35,7 +38,7 @@ def _build_policy(name: str, cfg: dict):
             min_replicas=cfg["min_replicas"],
             max_replicas=cfg["max_replicas"],
         )
-    if name in ("predictive", "oracle"):
+    if name in _FORECAST_POLICIES:
         return PredictivePolicy(
             capacity_per_replica=cfg["capacity_rps_per_replica"],
             target_utilization=cfg["target_cpu"] / 100.0,
@@ -46,11 +49,17 @@ def _build_policy(name: str, cfg: dict):
 
 
 def _build_forecaster(name: str, workload):
-    if name == "predictive":
+    if name in ("predictive", "predictive_frozen"):
         return QuantileForecaster()
     if name == "oracle":
         return OracleForecaster(workload)
     return PersistenceForecaster(0.20)  # unused by static / hpa
+
+
+def _refit_every(name: str, cfg: dict) -> int:
+    # predictive_frozen trains once (when history first reaches min_train_points)
+    # and is never refit, so H4 can compare "retrain after drift" vs "frozen".
+    return 0 if name == "predictive_frozen" else cfg["refit_every"]
 
 
 def _atomic_write_json(path: Path, payload) -> None:
@@ -82,7 +91,7 @@ def run_matrix(config_path: Path, output_dir: Path) -> list[ExperimentSummary]:
                     policy,
                     forecaster,
                     service,
-                    refit_every=cfg["refit_every"],
+                    refit_every=_refit_every(policy_name, cfg),
                     initial_replicas=cfg["initial_replicas"],
                 )
                 summary = summarize(

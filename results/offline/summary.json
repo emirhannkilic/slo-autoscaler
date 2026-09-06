@@ -10,6 +10,7 @@
       "static",
       "hpa",
       "predictive",
+      "predictive_frozen",
       "oracle"
     ],
     "seeds": [
@@ -181,8 +182,8 @@
       "max_p95_latency_ms": 32.15350523899238,
       "scaling_events": 1,
       "oscillations": 0,
-      "forecast_mae": 1.3431597986016173,
-      "fallback_count": 36
+      "forecast_mae": 1.3064950243595446,
+      "fallback_count": 30
     },
     {
       "scenario": "steady",
@@ -195,8 +196,8 @@
       "max_p95_latency_ms": 34.554411814426594,
       "scaling_events": 1,
       "oscillations": 0,
-      "forecast_mae": 1.7465250655240339,
-      "fallback_count": 36
+      "forecast_mae": 1.7054852922667407,
+      "fallback_count": 30
     },
     {
       "scenario": "steady",
@@ -209,8 +210,8 @@
       "max_p95_latency_ms": 51.677125616502934,
       "scaling_events": 1,
       "oscillations": 0,
-      "forecast_mae": 1.7762357577092525,
-      "fallback_count": 36
+      "forecast_mae": 1.7574742620253845,
+      "fallback_count": 30
     },
     {
       "scenario": "steady",
@@ -223,8 +224,8 @@
       "max_p95_latency_ms": 30.16127030987388,
       "scaling_events": 1,
       "oscillations": 0,
-      "forecast_mae": 1.6934963337946878,
-      "fallback_count": 36
+      "forecast_mae": 1.6982293692625223,
+      "fallback_count": 30
     },
     {
       "scenario": "steady",
@@ -237,8 +238,78 @@
       "max_p95_latency_ms": 30.497013655904205,
       "scaling_events": 1,
       "oscillations": 0,
-      "forecast_mae": 1.4737790280240624,
-      "fallback_count": 36
+      "forecast_mae": 1.471110825497634,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "steady",
+      "policy": "predictive_frozen",
+      "seed": 42,
+      "slo_violation_rate": 0.0,
+      "replica_steps": 239,
+      "mean_replicas": 1.9916666666666667,
+      "mean_p95_latency_ms": 30.0179458769916,
+      "max_p95_latency_ms": 32.15350523899238,
+      "scaling_events": 1,
+      "oscillations": 0,
+      "forecast_mae": 1.3043248018254798,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "steady",
+      "policy": "predictive_frozen",
+      "seed": 43,
+      "slo_violation_rate": 0.0,
+      "replica_steps": 239,
+      "mean_replicas": 1.9916666666666667,
+      "mean_p95_latency_ms": 30.03795343178689,
+      "max_p95_latency_ms": 34.554411814426594,
+      "scaling_events": 1,
+      "oscillations": 0,
+      "forecast_mae": 1.6628181052679154,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "steady",
+      "policy": "predictive_frozen",
+      "seed": 44,
+      "slo_violation_rate": 0.0,
+      "replica_steps": 239,
+      "mean_replicas": 1.9916666666666667,
+      "mean_p95_latency_ms": 30.180642713470856,
+      "max_p95_latency_ms": 51.677125616502934,
+      "scaling_events": 1,
+      "oscillations": 0,
+      "forecast_mae": 1.741784212979473,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "steady",
+      "policy": "predictive_frozen",
+      "seed": 45,
+      "slo_violation_rate": 0.0,
+      "replica_steps": 239,
+      "mean_replicas": 1.9916666666666667,
+      "mean_p95_latency_ms": 30.00134391924895,
+      "max_p95_latency_ms": 30.16127030987388,
+      "scaling_events": 1,
+      "oscillations": 0,
+      "forecast_mae": 1.6459601562151378,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "steady",
+      "policy": "predictive_frozen",
+      "seed": 46,
+      "slo_violation_rate": 0.0,
+      "replica_steps": 239,
+      "mean_replicas": 1.9916666666666667,
+      "mean_p95_latency_ms": 30.00414178046587,
+      "max_p95_latency_ms": 30.497013655904205,
+      "scaling_events": 1,
+      "oscillations": 0,
+      "forecast_mae": 1.4548391929864,
+      "fallback_count": 30
     },
     {
       "scenario": "steady",
@@ -461,8 +532,8 @@
       "max_p95_latency_ms": 479.5127837312646,
       "scaling_events": 18,
       "oscillations": 16,
-      "forecast_mae": 7.065879142328938,
-      "fallback_count": 36
+      "forecast_mae": 7.050594542958521,
+      "fallback_count": 30
     },
     {
       "scenario": "spike",
@@ -475,8 +546,8 @@
       "max_p95_latency_ms": 488.07961089948697,
       "scaling_events": 29,
       "oscillations": 27,
-      "forecast_mae": 7.331927972258629,
-      "fallback_count": 36
+      "forecast_mae": 7.3231146345329625,
+      "fallback_count": 30
     },
     {
       "scenario": "spike",
@@ -489,8 +560,8 @@
       "max_p95_latency_ms": 493.20312948164207,
       "scaling_events": 15,
       "oscillations": 13,
-      "forecast_mae": 7.413079712915873,
-      "fallback_count": 36
+      "forecast_mae": 7.400323348055261,
+      "fallback_count": 30
     },
     {
       "scenario": "spike",
@@ -503,8 +574,8 @@
       "max_p95_latency_ms": 484.0421399589446,
       "scaling_events": 31,
       "oscillations": 27,
-      "forecast_mae": 8.108844983670664,
-      "fallback_count": 36
+      "forecast_mae": 8.10185618284572,
+      "fallback_count": 30
     },
     {
       "scenario": "spike",
@@ -517,8 +588,78 @@
       "max_p95_latency_ms": 490.33361828088584,
       "scaling_events": 15,
       "oscillations": 13,
-      "forecast_mae": 7.279714293193166,
-      "fallback_count": 36
+      "forecast_mae": 7.261601656241885,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "spike",
+      "policy": "predictive_frozen",
+      "seed": 42,
+      "slo_violation_rate": 0.08333333333333333,
+      "replica_steps": 239,
+      "mean_replicas": 1.9916666666666667,
+      "mean_p95_latency_ms": 66.70317025865117,
+      "max_p95_latency_ms": 479.5127837312646,
+      "scaling_events": 1,
+      "oscillations": 0,
+      "forecast_mae": 7.039588301362589,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "spike",
+      "policy": "predictive_frozen",
+      "seed": 43,
+      "slo_violation_rate": 0.08333333333333333,
+      "replica_steps": 239,
+      "mean_replicas": 1.9916666666666667,
+      "mean_p95_latency_ms": 66.26704505941467,
+      "max_p95_latency_ms": 488.07961089948697,
+      "scaling_events": 1,
+      "oscillations": 0,
+      "forecast_mae": 7.205175056511941,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "spike",
+      "policy": "predictive_frozen",
+      "seed": 44,
+      "slo_violation_rate": 0.08333333333333333,
+      "replica_steps": 239,
+      "mean_replicas": 1.9916666666666667,
+      "mean_p95_latency_ms": 66.51127942387926,
+      "max_p95_latency_ms": 493.20312948164207,
+      "scaling_events": 1,
+      "oscillations": 0,
+      "forecast_mae": 7.131568462138857,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "spike",
+      "policy": "predictive_frozen",
+      "seed": 45,
+      "slo_violation_rate": 0.08333333333333333,
+      "replica_steps": 239,
+      "mean_replicas": 1.9916666666666667,
+      "mean_p95_latency_ms": 66.1807774519059,
+      "max_p95_latency_ms": 484.0421399589446,
+      "scaling_events": 1,
+      "oscillations": 0,
+      "forecast_mae": 7.125451192621687,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "spike",
+      "policy": "predictive_frozen",
+      "seed": 46,
+      "slo_violation_rate": 0.08333333333333333,
+      "replica_steps": 239,
+      "mean_replicas": 1.9916666666666667,
+      "mean_p95_latency_ms": 66.77194161298267,
+      "max_p95_latency_ms": 490.33361828088584,
+      "scaling_events": 1,
+      "oscillations": 0,
+      "forecast_mae": 7.102512112730679,
+      "fallback_count": 30
     },
     {
       "scenario": "spike",
@@ -735,14 +876,14 @@
       "policy": "predictive",
       "seed": 42,
       "slo_violation_rate": 0.0,
-      "replica_steps": 462,
-      "mean_replicas": 3.85,
+      "replica_steps": 461,
+      "mean_replicas": 3.841666666666667,
       "mean_p95_latency_ms": 30.008349276282743,
       "max_p95_latency_ms": 30.611128669287183,
-      "scaling_events": 9,
-      "oscillations": 4,
-      "forecast_mae": 10.075912211869959,
-      "fallback_count": 36
+      "scaling_events": 7,
+      "oscillations": 2,
+      "forecast_mae": 10.528583349745908,
+      "fallback_count": 30
     },
     {
       "scenario": "ramp",
@@ -755,22 +896,22 @@
       "max_p95_latency_ms": 31.09945958383125,
       "scaling_events": 5,
       "oscillations": 0,
-      "forecast_mae": 10.079077297794342,
-      "fallback_count": 36
+      "forecast_mae": 10.490362249903002,
+      "fallback_count": 30
     },
     {
       "scenario": "ramp",
       "policy": "predictive",
       "seed": 44,
       "slo_violation_rate": 0.0,
-      "replica_steps": 465,
-      "mean_replicas": 3.875,
+      "replica_steps": 464,
+      "mean_replicas": 3.8666666666666667,
       "mean_p95_latency_ms": 30.016239438072645,
       "max_p95_latency_ms": 31.527843923741667,
-      "scaling_events": 9,
-      "oscillations": 4,
-      "forecast_mae": 10.259550795622712,
-      "fallback_count": 36
+      "scaling_events": 7,
+      "oscillations": 2,
+      "forecast_mae": 10.705895810758992,
+      "fallback_count": 30
     },
     {
       "scenario": "ramp",
@@ -783,8 +924,8 @@
       "max_p95_latency_ms": 30.68874448841864,
       "scaling_events": 7,
       "oscillations": 2,
-      "forecast_mae": 10.28221199809872,
-      "fallback_count": 36
+      "forecast_mae": 10.704886268767455,
+      "fallback_count": 30
     },
     {
       "scenario": "ramp",
@@ -797,8 +938,78 @@
       "max_p95_latency_ms": 30.973759615968998,
       "scaling_events": 9,
       "oscillations": 4,
-      "forecast_mae": 9.943953881790193,
-      "fallback_count": 36
+      "forecast_mae": 10.39396172701308,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "ramp",
+      "policy": "predictive_frozen",
+      "seed": 42,
+      "slo_violation_rate": 0.0,
+      "replica_steps": 332,
+      "mean_replicas": 2.7666666666666666,
+      "mean_p95_latency_ms": 55.50521923001325,
+      "max_p95_latency_ms": 179.58624547023646,
+      "scaling_events": 4,
+      "oscillations": 2,
+      "forecast_mae": 31.256310677414977,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "ramp",
+      "policy": "predictive_frozen",
+      "seed": 43,
+      "slo_violation_rate": 0.0,
+      "replica_steps": 333,
+      "mean_replicas": 2.775,
+      "mean_p95_latency_ms": 55.49323534702659,
+      "max_p95_latency_ms": 169.64771654038034,
+      "scaling_events": 2,
+      "oscillations": 0,
+      "forecast_mae": 31.295414215560392,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "ramp",
+      "policy": "predictive_frozen",
+      "seed": 44,
+      "slo_violation_rate": 0.0,
+      "replica_steps": 335,
+      "mean_replicas": 2.7916666666666665,
+      "mean_p95_latency_ms": 55.79332440318064,
+      "max_p95_latency_ms": 182.20788535116438,
+      "scaling_events": 4,
+      "oscillations": 2,
+      "forecast_mae": 30.872001141537325,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "ramp",
+      "policy": "predictive_frozen",
+      "seed": 45,
+      "slo_violation_rate": 0.0,
+      "replica_steps": 334,
+      "mean_replicas": 2.783333333333333,
+      "mean_p95_latency_ms": 55.824102642697746,
+      "max_p95_latency_ms": 175.1502703871884,
+      "scaling_events": 4,
+      "oscillations": 2,
+      "forecast_mae": 31.34325338337657,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "ramp",
+      "policy": "predictive_frozen",
+      "seed": 46,
+      "slo_violation_rate": 0.0,
+      "replica_steps": 333,
+      "mean_replicas": 2.775,
+      "mean_p95_latency_ms": 55.63190400906576,
+      "max_p95_latency_ms": 170.66578406837513,
+      "scaling_events": 6,
+      "oscillations": 4,
+      "forecast_mae": 31.2340633998011,
+      "fallback_count": 30
     },
     {
       "scenario": "ramp",
@@ -1021,8 +1232,8 @@
       "max_p95_latency_ms": 167.11891327030773,
       "scaling_events": 2,
       "oscillations": 0,
-      "forecast_mae": 5.839248727118716,
-      "fallback_count": 36
+      "forecast_mae": 5.823964127748301,
+      "fallback_count": 30
     },
     {
       "scenario": "regime_shift",
@@ -1035,8 +1246,8 @@
       "max_p95_latency_ms": 178.3426504710377,
       "scaling_events": 2,
       "oscillations": 0,
-      "forecast_mae": 7.107333336064641,
-      "fallback_count": 36
+      "forecast_mae": 7.0985199983389755,
+      "fallback_count": 30
     },
     {
       "scenario": "regime_shift",
@@ -1049,8 +1260,8 @@
       "max_p95_latency_ms": 177.52793279307008,
       "scaling_events": 4,
       "oscillations": 2,
-      "forecast_mae": 8.803794230407574,
-      "fallback_count": 36
+      "forecast_mae": 8.791037865546963,
+      "fallback_count": 30
     },
     {
       "scenario": "regime_shift",
@@ -1063,8 +1274,8 @@
       "max_p95_latency_ms": 168.3688776715328,
       "scaling_events": 2,
       "oscillations": 0,
-      "forecast_mae": 5.962002736645188,
-      "fallback_count": 36
+      "forecast_mae": 5.955013935820245,
+      "fallback_count": 30
     },
     {
       "scenario": "regime_shift",
@@ -1077,8 +1288,78 @@
       "max_p95_latency_ms": 178.8176634965867,
       "scaling_events": 2,
       "oscillations": 0,
-      "forecast_mae": 7.492712398967393,
-      "fallback_count": 36
+      "forecast_mae": 7.474599762016111,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "regime_shift",
+      "policy": "predictive_frozen",
+      "seed": 42,
+      "slo_violation_rate": 0.0,
+      "replica_steps": 239,
+      "mean_replicas": 1.9916666666666667,
+      "mean_p95_latency_ms": 94.04369239269454,
+      "max_p95_latency_ms": 173.80882978981484,
+      "scaling_events": 1,
+      "oscillations": 0,
+      "forecast_mae": 23.810580075814816,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "regime_shift",
+      "policy": "predictive_frozen",
+      "seed": 43,
+      "slo_violation_rate": 0.0,
+      "replica_steps": 239,
+      "mean_replicas": 1.9916666666666667,
+      "mean_p95_latency_ms": 94.41432526951462,
+      "max_p95_latency_ms": 180.8490877329905,
+      "scaling_events": 1,
+      "oscillations": 0,
+      "forecast_mae": 24.303595923134157,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "regime_shift",
+      "policy": "predictive_frozen",
+      "seed": 44,
+      "slo_violation_rate": 0.0,
+      "replica_steps": 239,
+      "mean_replicas": 1.9916666666666667,
+      "mean_p95_latency_ms": 95.03193395233166,
+      "max_p95_latency_ms": 179.41050720074554,
+      "scaling_events": 1,
+      "oscillations": 0,
+      "forecast_mae": 24.026828863014757,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "regime_shift",
+      "policy": "predictive_frozen",
+      "seed": 45,
+      "slo_violation_rate": 0.0,
+      "replica_steps": 239,
+      "mean_replicas": 1.9916666666666667,
+      "mean_p95_latency_ms": 94.55077516198344,
+      "max_p95_latency_ms": 185.32117575074668,
+      "scaling_events": 1,
+      "oscillations": 0,
+      "forecast_mae": 24.285935246098393,
+      "fallback_count": 30
+    },
+    {
+      "scenario": "regime_shift",
+      "policy": "predictive_frozen",
+      "seed": 46,
+      "slo_violation_rate": 0.0,
+      "replica_steps": 239,
+      "mean_replicas": 1.9916666666666667,
+      "mean_p95_latency_ms": 94.45680795508913,
+      "max_p95_latency_ms": 178.8176634965867,
+      "scaling_events": 1,
+      "oscillations": 0,
+      "forecast_mae": 24.10467738161705,
+      "fallback_count": 30
     },
     {
       "scenario": "regime_shift",

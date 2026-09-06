@@ -1,6 +1,6 @@
 {
   "scenarios": ["steady", "spike", "ramp", "regime_shift"],
-  "policies": ["static", "hpa", "predictive", "oracle"],
+  "policies": ["static", "hpa", "predictive", "predictive_frozen", "oracle"],
   "seeds": [42, 43, 44, 45, 46],
   "steps": 120,
   "initial_replicas": 1,

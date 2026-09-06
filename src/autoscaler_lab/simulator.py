@@ -57,9 +57,12 @@ def run_simulation(
         forecast = None
         fallback_used = False
         if uses_forecast:
-            if (
-                t >= _REFIT_MIN_HISTORY and refit_every > 0 and t % refit_every == 0
-            ):  # 4. refit
+            # 4. fit. refit_every == 0 means "train once at the threshold, then
+            # freeze" (for H4's frozen-vs-retrained comparison); > 0 refits on a
+            # schedule; the exact threshold step always trains regardless.
+            if t == _REFIT_MIN_HISTORY or (
+                t > _REFIT_MIN_HISTORY and refit_every > 0 and t % refit_every == 0
+            ):
                 forecaster.fit(history)
             # 5. predict. Called every step so a normal forecaster always sees
             # history of length 1..n. Oracle indexes the workload, so on the last
